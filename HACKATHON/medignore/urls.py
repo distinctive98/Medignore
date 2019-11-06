@@ -4,6 +4,7 @@ from . import views
 app_name = 'medignore'
 
 urlpatterns = [
+    path('info/', views.test, name='info'),
     path('temp/', views.temp, name="temp"),
     path('', views.main, name="main"),
 ]
