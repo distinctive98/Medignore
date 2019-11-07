@@ -1,4 +1,12 @@
+
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from django.views import View
+
+from .forms import PhotoForm
+from .models import Photo
+
+import time
 import cv2
 import json
 import requests
@@ -13,17 +21,48 @@ def main(request):
 
 def temp(request):
     if request.method == 'POST':
-        imagetest= request.FILES.get('real_path')
-        print(f'image real_path : {imagetest}')
-        image='C:/Users/USER/Desktop/aa.PNG'
-        key = '{key}'
-        practice(image, key)
-        return redirect('medignore:info')
+        # imagetest= request.FILES.get('real_path')
+        # print(f'image real_path : {imagetest}')
+        # image='C:/Users/USER/Desktop/aa.PNG'
+        # key = '{key}'
+        # practice(image, key)
+        form = PhotoForm(request.POST, request.FILES)
+        if form.is_valid():
+            photo = form.save()
+            data = {'is_valid': True, 'name': photo.file.name, 'url': photo.file.url}
+            image= './' + photo.file.url
+            # image ='C:/Users/student/Desktop/11.jpg'
+            key = '{key}'
+            practice(image, key)
+        else:
+            data = {'is_valid': False}
+        return JsonResponse(data)
     else:     
-        return render(request, 'medignore/temp.html')
+        photos_list = Photo.objects.all()
+        return render(request, 'medignore/drag_and_drop_upload.html', {'photos': photos_list})
 
 def test(request):
-    return render(request,'medignore/test.html')
+     if request.method == 'POST':
+        # imagetest= request.FILES.get('real_path')
+        # print(f'image real_path : {imagetest}')
+        # image='C:/Users/USER/Desktop/aa.PNG'
+        # key = '{key}'
+        # practice(image, key)
+        form = PhotoForm(request.POST, request.FILES)
+        if form.is_valid():
+            photo = form.save()
+            data = {'is_valid': True, 'name': photo.file.name, 'url': photo.file.url}
+            image= './'+photo.file.url
+            # image ='C:/Users/student/Desktop/11.jpg'
+            print(f'image url : {image}')
+            key = '{key}'
+            practice(image, key)
+        else:
+            data = {'is_valid': False}
+        return JsonResponse(data)
+     else:     
+        photos_list = Photo.objects.all()
+        return render(request, 'medignore/drag_and_drop_upload.html', {'photos': photos_list})
 
 def kakao_ocr_resize(image_path: str):
     """
@@ -103,3 +142,40 @@ def practice(a, b):
     boxes = boxes[:min(len(boxes), LIMIT_BOX)]
     output = kakao_ocr_recognize(image_path, boxes, appkey).json()
     print("[recognize] output:\n{}\n".format(json.dumps(output, sort_keys=True, indent=2)))
+
+# class BasicUploadView(View):
+#     def get(self, request):
+#         photos_list = Photo.objects.all()
+#         return render(self.request, 'medignore/temp2.html', {'photos': photos_list})
+
+#     def post(self, request):
+#         form = PhotoForm(self.request.POST, self.request.FILES)
+#         if form.is_valid():
+#             photo = form.save()
+#             data = {'is_valid': True, 'name': photo.file.name, 'url': photo.file.url}
+#         else:
+#             data = {'is_valid': False}
+#         return JsonResponse(data)
+
+
+
+# class DragAndDropUploadView(View):
+#     def get(self, request):
+#         photos_list = Photo.objects.all()
+#         return render(self.request, 'medignore/temp.html', {'photos': photos_list})
+
+#     def post(self, request):
+#         form = PhotoForm(self.request.POST, self.request.FILES)
+#         if form.is_valid():
+#             photo = form.save()
+#             data = {'is_valid': True, 'name': photo.file.name, 'url': photo.file.url}
+#         else:
+#             data = {'is_valid': False}
+#         return JsonResponse(data)
+
+
+def clear_database(request):
+    for photo in Photo.objects.all():
+        photo.file.delete()
+        photo.delete()
+    return redirect(request.POST.get('next'))
