@@ -11,6 +11,7 @@ import cv2
 import json
 import requests
 import sys
+import re
 
 LIMIT_PX = 1024
 LIMIT_BYTE = 1024*1024  # 1MB
@@ -33,7 +34,7 @@ def temp(request):
             image= './' + photo.file.url
             # image ='C:/Users/student/Desktop/11.jpg'
             key = '{key}'
-            practice(image, key)
+            output = practice(image, key)
         else:
             data = {'is_valid': False}
         return JsonResponse(data)
@@ -56,7 +57,15 @@ def test(request):
             # image ='C:/Users/student/Desktop/11.jpg'
             print(f'image url : {image}')
             key = '{key}'
-            practice(image, key)
+            output = practice(image, key)
+            resultOutput =output['result']['recognition_words']
+            regex =re.compile('\d{9}')
+            for item in resultOutput:
+                mo = regex.search(item)
+                if mo != None:
+                    print(mo.group()) 
+
+            # print(resultOutput)
         else:
             data = {'is_valid': False}
         return JsonResponse(data)
@@ -141,7 +150,9 @@ def practice(a, b):
     boxes = output["result"]["boxes"]
     boxes = boxes[:min(len(boxes), LIMIT_BOX)]
     output = kakao_ocr_recognize(image_path, boxes, appkey).json()
-    print("[recognize] output:\n{}\n".format(json.dumps(output, sort_keys=True, indent=2)))
+    # print(output)
+    return output
+    # print("[recognize] output:\n{}\n".format(json.dumps(output, sort_keys=True, indent=2)))
 
 # class BasicUploadView(View):
 #     def get(self, request):
