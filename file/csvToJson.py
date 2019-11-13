@@ -1,8 +1,8 @@
 import csv
 import json
 
-input_file_name = "durItem.csv"
-output_file_name = "durItem.txt"
+input_file_name = "durItem2.csv"
+output_file_name = "durItem2.txt"
 with open(input_file_name, "r", encoding="utf-8", newline="") as input_file, \
         open(output_file_name, "w", encoding="utf-8", newline="") as output_file:
         
