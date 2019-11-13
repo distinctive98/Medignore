@@ -3,6 +3,8 @@ from decouple import config
 import requests
 from urllib.request import Request, urlopen
 from urllib.parse import urlencode, quote_plus, unquote
+from xml.etree import ElementTree
+
 # Create your views here.
 
 def main(request):
@@ -37,17 +39,24 @@ def result(request):
         {
             quote_plus('serviceKey') : API_Key,
             quote_plus('typeName'): '임부금기',
-            quote_plus('ingrCode'): 'A005138', 
-            quote_plus('itemName') : '세레콕시브', 
-            quote_plus('pageNo') : '1',
-            quote_plus('numOfRows') : '3',
+            quote_plus('ingrCode'): param, # 코드: A005138
+            # quote_plus('itemName') : '세레콕시브', 
+            # quote_plus('pageNo') : '1',
+            # quote_plus('numOfRows') : '3',
             }
     )
 
-    request = Request(url+queryParams)
-    request.get_method = lambda : 'GET'
-    response_body = urlopen(request).read().decode('utf-8')
-
+    req = Request(url+queryParams)
+    req.get_method = lambda : 'GET'
+    response_body = urlopen(req).read().decode('utf-8')
     print(response_body)
 
-    # return render(request, 'medignore/result.html',{'param':param})
+    print("###############################")
+
+    root = ElementTree.fromstring(response_body)
+    # for content in root.iter("./PROHBT_CONTENT"):
+    #     print(content.text)
+    data = root.find('body').find('items').find('item').find('PROHBT_CONTENT').text
+    print(data)
+
+    return render(request, 'medignore/result.html',{'param':data})
