@@ -13,8 +13,8 @@
 #     #     #print(line, file=output_file)
 
 
-input_file_name = "durItem2.txt"
-output_file_name = "dur2.txt"
+input_file_name = "durProhibit3.txt"
+output_file_name = "durP3.txt"
 
 input_file = open(input_file_name, 'r', encoding="utf-8")
 output_file = open(output_file_name, 'w', encoding="utf-8")
