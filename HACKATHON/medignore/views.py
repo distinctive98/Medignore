@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from decouple import config
-import requests
 from urllib.request import Request, urlopen
 from urllib.parse import urlencode, quote_plus, unquote
 from xml.etree import ElementTree
 import openpyxl
+import request
 
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
@@ -280,3 +280,9 @@ def clear_database(request):
         photo.file.delete()
         photo.delete()
     return redirect(request.POST.get('next'))
+
+def url_parse(request):
+    url = request.path
+    print(url)
+    
+    return render(request,'medignore/result.html')

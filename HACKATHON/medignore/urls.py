@@ -4,6 +4,7 @@ from . import views
 app_name = 'medignore'
 
 urlpatterns = [
+    path('url/<int:param>/', views.url_parse, name="url_parse"),
     path('result/', views.result, name="result"),
     path('search/', views.search, name="search"),
     path('test/', views.test, name='test'),
