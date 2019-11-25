@@ -14,7 +14,8 @@ def durProhibit(durList, sign) :
     for i in range(durList_len) :
         check = False
         for j in range(field_len) :
-            if field[j]['Item'] == durList[i] :
+            # if field[j]['Item'] == durList[i] :
+            if durList[i] in field[j]['Item']:
                 result.append(field[j]['Prohibit'])
                 check = True
                 break
