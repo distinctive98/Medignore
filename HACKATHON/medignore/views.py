@@ -10,6 +10,7 @@ from django.views import View
 
 from .forms import PhotoForm
 from .models import Photo
+from .jsonParser import durProhibit
 
 import time
 import cv2
@@ -17,6 +18,7 @@ import json
 import requests
 import sys
 import re
+
 
 LIMIT_PX = 1024
 LIMIT_BYTE = 1024*1024  # 1MB
@@ -176,7 +178,31 @@ def clear_database(request):
         photo.delete()
     return redirect(request.POST.get('next'))
 
+# def durProhibit(durList, sign) :
+#     #C:\Users\student\Desktop\Medignore\HACKATHON\medignore\static\medignore\json\durProhibit1.json
+#     with open('./static/medignore/json/durProhibit' + sign + '.json', encoding="utf-8") as data_file :
+#         data = json.load(data_file)
+
+#     field = data['FIELD']
+#     durList_len = len(durList)
+#     field_len = len(field)
+#     result = []
+#     for i in range(durList_len) :
+#         check = False
+#         for j in range(field_len) :
+#             if field[j]['Item'] == durList[i] :
+#                 result.append(field[j]['Prohibit'])
+#                 check = True
+#                 break
+#         if not check :
+#             result.append('이상없음')
+
+#     for i in range(len(result)) :
+#         print(result[i])
+
 def url_parse(request, medicine):
     medicine_list = medicine.split(',')
     print(medicine_list)
-    return render(request,'medignore/result.html',{'medicine_list':medicine_list})
+    prohibit_list = durProhibit(medicine_list, '1')
+    print(prohibit_list)
+    return render(request,'medignore/result.html',{'medicine_list':medicine_list, 'prohibit_list':prohibit_list})
