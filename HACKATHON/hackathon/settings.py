@@ -119,3 +119,10 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [    # 정적 파일이 위치한 경로
+    os.path.join(BASE_DIR, 'hackathon','assets',) # 쉼표(,)를 빠뜨리게 되면 에러가 납니다. django_blog/assets/ 로 가서 정적 파일이 있는지 찾는다.
+]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
