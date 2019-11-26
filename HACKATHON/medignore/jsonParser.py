@@ -38,10 +38,8 @@ def getDurItems(codeList) :
     for i in range(codeList_len) :
         for j in range(field_len) :
             if codeList[i] in field[j]['Code'] :
-                result.append(field[j]['Code'])
+                result.append(field[j]['Item'])
                 break
     
     return result
 
-#durList = ['원포팜주사액(네포팜염산염)', '라이트네포팜주(네포팜염산염)', '이상한약', '로이나제주(엘아스파라기나제)']
-#durProhibit(durList, '1')

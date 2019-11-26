@@ -16,8 +16,8 @@
 
 
 {% block photos_content %}
-<form action="/medignore/result/">
-  검색어 : <input type="text" name="param" placeholder="약품명을 입력하세요."> <input type="submit" value ="검색">
+<form action="/medignore/result/" method="GET">
+  검색어 : <input id="searchItems" type="text" name="durItems" style='width :100%'placeholder="약품명을 입력하세요."> <input type="submit" value ="검색">
 </form>
 
 

@@ -14,6 +14,7 @@ $(function () {
         $("#photo").prepend(
           "<img src='"+ data.result.url +"'><br><h4>추출된 약품 보험코드 : "+data.result.medList+"<h4><hr>"
         )
+        $('#searchItems').val(data.result.getDurNames)
       }
     }
   });
