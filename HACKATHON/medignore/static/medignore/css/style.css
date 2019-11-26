@@ -1,0 +1,209 @@
+html,
+body {
+    height: 100vh;
+}
+
+#wrap {
+    position: relative;
+    height: 40vh;
+    padding: 30vh 0;
+}
+
+#wrap .github_corner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 80px;
+    height: 80px;
+}
+
+#header {
+    text-align: center;
+}
+
+#header h1 {
+    margin-bottom: 8px;
+}
+
+#header p {
+    color: #678367;
+    font-size: 16px;
+    font-weight: normal;
+    letter-spacing: -1px;
+}
+
+#content {}
+
+#content #searchForm {
+    position: relative;
+    width: 660px;
+    margin: 0 auto;
+    margin-top: 45px;
+}
+
+#content #searchForm .line {
+    width: 570px;
+    border: 1px solid #ccc;
+    border-radius: 7px 0 0 7px;
+}
+
+#content #searchForm #inputBox {
+    display: inline-block;
+    max-width: 505px;
+    min-width: 0;
+    padding: 0px 5px 5px 5px;
+}
+
+#content #searchForm #inputBox:after {
+    display: block;
+    content: '';
+    clear: both;
+}
+
+#content #searchForm #inputBox span.dur {
+    float: left;
+    position: relative;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #555;
+    height: 32px;
+    padding: 0 10px 0 22px;
+    font-size: 12px;
+    line-height: 32px;
+    font-weight: bold;
+    overflow: hidden;
+    margin: 5px 5px 0 0;
+}
+
+#content #searchForm #inputBox span.dur span.close {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 7px;
+    cursor: pointer;
+}
+
+#content #searchForm #inputBox:after {
+    display: block;
+    content: '';
+    clear: both;
+}
+
+#content #searchForm .i_box {
+    width: 100%;
+    min-height: 44px;
+    border-right: none;
+    border-radius: 7px 0 0 7px;
+}
+
+#content #searchForm .i_box:after {
+    display: block;
+    content: '';
+    clear: both;
+}
+
+#content #searchForm .i_box input#searchText {
+    display: inline-block;
+    float: left;
+    max-width: 515px;
+    min-width: 50px;
+    height: 32px;
+    border: 1px solid #fff;
+    background: #fff;
+    border-radius: 7px 0 0 7px;
+    margin: 5px 0 0 0;
+}
+
+#content #searchForm .i_box #camera {
+    position: absolute;
+    top: 0;
+    right: 90px;
+    display: inline-block;
+    width: 55px;
+    text-align: center;
+}
+
+#content #searchForm .i_box #camera img {
+    margin-top: 10px;
+}
+
+#content #searchForm .btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 90px;
+}
+
+#content #searchForm .btn input {
+    width: 100%;
+    height: 46px;
+    border: none;
+    background: #006600;
+    border: 1px solid #004700;
+    color: #fff;
+    border-radius: 0 7px 7px 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+#content #searchResult {
+    width: 100%;
+    width: 570px;
+    border: 1px solid #ccc;
+    border-top: 1px solid #fff;
+}
+
+#content #searchResult {
+    overflow-y: scroll;
+    overflow-x: auto;
+    height: 200px;
+}
+
+#content #searchResult ul.prd_list {
+    width: 100%;
+}
+
+#content #searchResult ul.prd_list li {
+    cursor: pointer;
+    padding: 10px 10px;
+    line-height: 1.3;
+    overflow-x: auto;
+}
+
+#content #searchResult ul.prd_list li:hover {
+    background: #06F;
+    color: #fff;
+}
+
+#footer {
+    position: absolute;
+    bottom: 50px;
+    left: 0;
+    width: 100%;
+}
+
+#footer .box {
+    width: 396px;
+    margin: 0 auto;
+}
+
+#footer .box:after {
+    display: block;
+    content: '';
+    clear: both;
+}
+
+#footer .icon {
+    float: left;
+    width: 61px;
+}
+
+#footer p {
+    float: left;
+    width: 335px;
+    text-align: center;
+    line-height: 61px;
+    font-size: 14px;
+    color: #006600;
+}

@@ -60,8 +60,9 @@ def result(request):
 def main(request):
     return render(request, 'medignore/main.html')
 
-#def temp(request):
-#    return render(request, 'medignore/temp.html')
+
+def temp(request):
+    return render(request, 'medignore/temp.html')
 
 #의약품 낱알식별정보 서비스
 def service(request):
