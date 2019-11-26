@@ -10,7 +10,7 @@ from django.views import View
 
 from .forms import PhotoForm
 from .models import Photo
-from .jsonParser import durProhibit
+from .jsonParser import durProhibit, getDurItems
 
 import time
 import cv2
@@ -25,67 +25,38 @@ LIMIT_BYTE = 1024*1024  # 1MB
 LIMIT_BOX = 100
 
 
-
 def result(request):
-    param = request.GET.get('param') # search.html 에서 GET으로 받은 쿼리들 밑에 넣어줘야함
-    # param이 보험코드면 1. 품목 목록에서 이름 뽑아오고 2. 이름으로 임부 주의사항 뽑기
-    import openpyxl
- 
-    # 엑셀파일 열기
-    wb = openpyxl.load_workbook('product_detail.xlsx')
+    for photo in Photo.objects.all():
+        photo.file.delete()
+        photo.delete()
     
-    # 현재 Active Sheet 얻기
-    ws = wb.active
-    # ws = wb.get_sheet_by_name("Sheet1")
+    param = request.GET.get('durItems')
+    print('dddddd')
+    print(param)
+    medicine_list = param.split(',')
+    prohibit_list1 = durProhibit(medicine_list, '1')
+    prohibit_list2 = durProhibit(medicine_list, '2')
+    prohibit_list3 = durProhibit(medicine_list, '3')
+
+    medicine_Info1 = zip(medicine_list,prohibit_list1)
+    medicine_Info_Result1 = dict(medicine_Info1)
+
+    medicine_Info2 = zip(medicine_list,prohibit_list2)
+    medicine_Info_Result2 = dict(medicine_Info2)
+
+    medicine_Info3 = zip(medicine_list,prohibit_list3)
+    medicine_Info_Result3 = dict(medicine_Info3)
     
-    # 국영수 점수를 읽기
-    for r in ws.rows:
-        row_index = r[0].row   # 행 인덱스
-        kor = r[1].value
-        eng = r[2].value
-        math = r[3].value
-        sum = kor + eng + math
+    print(medicine_Info_Result1)
+    print(medicine_Info_Result2)
+    print(medicine_Info_Result3)
+    return render(request,'medignore/result.html',{'medicine_Info_Result1':medicine_Info_Result1,'medicine_Info_Result2':medicine_Info_Result2,'medicine_Info_Result3':medicine_Info_Result3,})
     
-        # 합계 쓰기
-        ws.cell(row=row_index, column=5).value = sum
-    
-        print(kor, eng, math, sum)
-    
-    # 엑셀 파일 저장
-    wb.save("score2.xlsx")
-    wb.close()
-    
-    return render(request, 'medignore/result.html',{'param':data})
 
 def main(request):
     return render(request, 'medignore/main.html')
 
 
-def temp(request):
-    return render(request, 'medignore/temp.html')
-
-#의약품 낱알식별정보 서비스
-def service(request):
-    #param = request.GET.get('param')
-    serviceKey = config('DATA_API_SERVICEKEY')
-
-    API_KEY = unquote(serviceKey)
-    url = 'http://apis.data.go.kr/1470000/MdcinGrnIdntfcInfoService/getMdcinGrnIdntfcInfoList'
-    queryParams = '?' + urlencode(
-        {
-            quote_plus('ServiceKey') : API_KEY,
-            quote_plus('item_name'): '디카맥스1000정',
-            #quote_plus('edi_code'): '664600460', 
-        }
-    )
-
-    request_body = Request(url+queryParams)
-    request_body.get_method = lambda : 'GET'
-    response_body = urlopen(request_body).read().decode('utf-8')
-
-    print(response_body)
-
-    return render(request, 'medignore/service.html',{'res':response_body})
 
 def search(request):
     kakao_key = config('KAKAO_KEY')
@@ -109,6 +80,9 @@ def search(request):
 
             data['medList']= medList
             print(f'리스트 출럭{medList}')
+            getDurNames=getDurItems(medList)
+            data['getDurNames']= getDurNames
+            print(getDurNames)
             print(data)
         else:
             data = {'is_valid': False}
@@ -183,22 +157,26 @@ def clear_database(request):
     return redirect(request.POST.get('next'))
 
 
-def url_parse(request, medicine):
-    medicine_list = medicine.split(',')
-    prohibit_list1 = durProhibit(medicine_list, '1')
-    prohibit_list2 = durProhibit(medicine_list, '2')
-    prohibit_list3 = durProhibit(medicine_list, '3')
 
-    medicine_Info1 = zip(medicine_list,prohibit_list1)
-    medicine_Info_Result1 = dict(medicine_Info1)
+# #의약품 낱알식별정보 서비스
+# def service(request):
+#     #param = request.GET.get('param')
+#     serviceKey = config('DATA_API_SERVICEKEY')
 
-    medicine_Info2 = zip(medicine_list,prohibit_list2)
-    medicine_Info_Result2 = dict(medicine_Info2)
+#     API_KEY = unquote(serviceKey)
+#     url = 'http://apis.data.go.kr/1470000/MdcinGrnIdntfcInfoService/getMdcinGrnIdntfcInfoList'
+#     queryParams = '?' + urlencode(
+#         {
+#             quote_plus('ServiceKey') : API_KEY,
+#             quote_plus('item_name'): '디카맥스1000정',
+#             #quote_plus('edi_code'): '664600460', 
+#         }
+#     )
 
-    medicine_Info3 = zip(medicine_list,prohibit_list3)
-    medicine_Info_Result3 = dict(medicine_Info3)
-    
-    print(medicine_Info_Result1)
-    print(medicine_Info_Result2)
-    print(medicine_Info_Result3)
-    return render(request,'medignore/result.html',{'medicine_Info_Result1':medicine_Info_Result1,'medicine_Info_Result2':medicine_Info_Result2,'medicine_Info_Result3':medicine_Info_Result3,})
+#     request_body = Request(url+queryParams)
+#     request_body.get_method = lambda : 'GET'
+#     response_body = urlopen(request_body).read().decode('utf-8')
+
+#     print(response_body)
+
+#     return render(request, 'medignore/service.html',{'res':response_body})
