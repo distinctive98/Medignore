@@ -14,7 +14,17 @@ $(function () {
         $("#photo").prepend(
           "<img src='"+ data.result.url +"'><br><h4>추출된 약품 보험코드 : "+data.result.medList+"<h4><hr>"
         )
-        $('#searchItems').val(data.result.getDurNames)
+        //$('#searchItems').val(data.result.getDurNames)
+        
+        for(i=0;i<data.result.getDurNames.length;i++){
+          $("#searchText").before("<span class='dur'><span class='close'><i ref='xicon' class='fas fa-times'></i></span><span class='text'>" + data.result.getDurNames[i] + "</span></span>");
+        }
+
+        alert()
+        
+        $('.merong strong').text(data.result.getDurNames)
+
+
       }
     }
   });
