@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,7 +11,111 @@
     {{ param }}
     <h1>의약품 리스트</h1><hr>
     {{ medicine_list }}
+    {% for i in medicine_list %}
+         {{i}}
+    {% endfor%}
     <h1>의약품 금지목록</h1><hr>
     {{ prohibit_list }}
 </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    table {
+        width: 100%;
+        border: 1px solid #444444;
+    }
+
+    th,
+    td {
+        border: 1px solid #444444;
+    }
+
+    div {
+        margin: 0 auto;
+    }
+</style>
+
+<body>
+    <h1>Medignore</h1>
+    <h3>검색 결과</h3>
+    <hr>
+    <div
+        style="background-color: aquamarine; display: inline-block; width: 300px ;height: 300px; border: 1px solid black;">
+        img</div>
+    <div
+        style="background-color: aquamarine; display: inline-block; width: 300px ;height: 300px; border: 1px solid black;">
+        img</div>
+
+    <br>
+    <br>
+
+
+    <h3>임부</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>약품명</th>
+                <th>부작용</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, value in medicine_Info_Result1.items %}
+            <tr>
+                <td>{{key}}</td>
+                <td>{{value}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>노인</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>약품명</th>
+                <th>부작용</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, value in medicine_Info_Result2.items %}
+            <tr>
+                <td>{{key}}</td>
+                <td>{{value}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>유아</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>약품명</th>
+                <th>부작용</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, value in medicine_Info_Result3.items %}
+            <tr>
+                <td>{{key}}</td>
+                <td>{{value}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <br>
+    뒤로가기
+</body>
+
 </html>

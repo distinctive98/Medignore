@@ -1,16 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Hello Search!</h1>
-    <form action="/medignore/result/">
-        검색어 : <input type="text" name="param">
-    </form>
-</body>
-</html>
+{% extends 'medignore/base_img.html' %}
 
+{% load static %}
+
+{% block title %}Search{% endblock %}
+
+{% block javascript %}
+{# JQUERY FILE UPLOAD SCRIPTS #}
+<script src="{% static 'js/jquery-file-upload/vendor/jquery.ui.widget.js' %}"></script>
+<script src="{% static 'js/jquery-file-upload/jquery.iframe-transport.js' %}"></script>
+<script src="{% static 'js/jquery-file-upload/jquery.fileupload.js' %}"></script>
+
+{# PHOTOS PAGE SCRIPTS #}
+<script src="{% static 'medignore/js/drag-and-drop-upload.js' %}"></script>
+{% endblock %}
+
+
+{% block photos_content %}
+<form action="/medignore/result/">
+  검색어 : <input type="text" name="param" placeholder="약품명을 입력하세요."> <input type="submit" value ="검색">
+</form>
+
+
+<div class="well text-muted text-center" style="padding-top: 4rem; padding-bottom: 4rem;">
+  <span class="glyphicon glyphicon-arrow-down" style="font-size: 4rem;"></span>
+  <h3>Drop Photos Here to Upload</h3>
+</div>
+
+
+
+<input id="fileupload" type="file" name="file" multiple style="display: none;" data-url="{% url 'medignore:search' %}"
+  data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
+
+<table id="gallery" class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Photo</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for photo in photos %}
+    <tr>
+      <td><a href="{{ photo.file.url }}">{{ photo.file.name }}</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<div id="photo">
+  {% for photo in photos %}
+  <img src="{{ photo.file.url }}">
+  {% endfor %}
+</div>
+{% endblock %}

@@ -21,22 +21,19 @@
     {% csrf_token %}
     <input type="hidden" name="next" value="{{ request.path }}">
     <button type="submit" class="btn btn-danger pull-right">
-      <span class="glyphicon glyphicon-trash"></span> Clear Database
+      <span class="glyphicon glyphicon-trash"></span> 업로드 사진 삭제
     </button>
   </form>
   <h1 class="page-header">
-    Photos
+    Medignore
     <small>{% block title %}{% endblock %}</small>
   </h1>
   <div class="row">
     <div class="col-md-3">
       <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Examples</h3>
-        </div>
         <div class="list-group">
-          <a href="{% url 'medignore:test' %}" class="list-group-item active">
-            Drag and Drop Upload
+          <a href="{% url 'medignore:search' %}" class="list-group-item active">
+            처방전 이미지를 드로그해서 옮기세요.
           </a>
         </div>
       </div>
