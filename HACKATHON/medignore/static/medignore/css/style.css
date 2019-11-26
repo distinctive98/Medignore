@@ -98,7 +98,6 @@ body {
 }
 
 #content #searchForm .i_box {
-    position: relative;
     width: 100%;
     min-height: 44px;
     border-right: none;
@@ -167,7 +166,7 @@ body {
 #content #searchResult {
     overflow-y: scroll;
     overflow-x: auto;
-    height: 200px;
+    height: 250px;
 }
 
 #content #searchResult ul.prd_list {
@@ -216,6 +215,22 @@ body {
     color: #006600;
 }
 
+#wrap.sub #footer {
+    height: 100px;
+    border-top: 1px solid #ccc;
+    background: #fff;
+    margin: 100px 0 0 0;
+}
+
+#wrap.sub #footer .box {
+    padding: 20px 0 0 0;
+}
+
+#footer .box {
+    width: 396px;
+    margin: 0 auto;
+}
+
 .merong {
     position: absolute;
     top: -9999%;
@@ -260,4 +275,52 @@ body {
     letter-spacing: -1px;
 }
 
+#wrap.sub h2 i {
+    color: #83b683
+}
+
 #wrap.sub h3 {}
+
+.table {}
+
+.table table {
+    width: 100%;
+}
+
+.table table th,
+.table table td {
+    font-size: 14px;
+    border: 1px solid #ddc8cc;
+}
+
+.table table thead th {
+    height: 60px;
+    background: #ffd4dd;
+    color: #666;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.table table tbody th,
+.table table tbody td {
+    height: 50px;
+    padding: 0 0 0 15px
+}
+
+.table.old table th,
+.table.old table td {
+    border: 1px solid #c5cfdb;
+}
+
+.table.old table thead th {
+    background: #d5e8ff;
+}
+
+.table.child table th,
+.table.child table td {
+    border: 1px solid #ddd5c6;
+}
+
+.table.child table thead th {
+    background: #feeccd;
+}

@@ -19,10 +19,12 @@
 <body>
     <div id="wrap" class="sub">
         <div id="header">
-            <h1 class="logo"><img src="{% static 'medignore/img/logo.png' %}" alt="medignore.io" /></h1>
+            <h1 class="logo">
+                <a href="/medignore/"><img src="{% static 'medignore/img/logo.png' %}" alt="medignore.io" /></a>
+            </h1>
         </div>
         <h2>
-            <p>의약품 검색 결과</p>
+            <p><i class="fas fa-search fa-1x"></i> 의약품 검색 결과</p>
         </h2>
 
         <div class="menu">
@@ -42,8 +44,8 @@
                             </colgroup>
                             <thead>
                                 <tr>
-                                    <th>약품명</th>
-                                    <th>부작용</th>
+                                    <th><i class="fas fa-tablets"></i> 약품명</th>
+                                    <th><i class="fas fa-caret-down"></i> 부작용</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -59,8 +61,7 @@
                 </article>
 
                 <article id="item-2" class="menu__item">
-                    <h3>노인</h3>
-                    <div class="table">
+                    <div class="table old">
                         <table>
                             <colgroup>
                                 <col width="30%">
@@ -68,8 +69,8 @@
                             </colgroup>
                             <thead>
                                 <tr>
-                                    <th>약품명</th>
-                                    <th>부작용</th>
+                                    <th><i class="fas fa-tablets"></i> 약품명</th>
+                                    <th><i class="fas fa-caret-down"></i> 부작용</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -86,8 +87,7 @@
                 </article>
 
                 <article id="item-3" class="menu__item">
-                    <h3>유아</h3>
-                    <div class="table">
+                    <div class="table child">
                         <table>
                             <colgroup>
                                 <col width="30%">
@@ -95,8 +95,8 @@
                             </colgroup>
                             <thead>
                                 <tr>
-                                    <th>약품명</th>
-                                    <th>부작용</th>
+                                    <th><i class="fas fa-tablets"></i> 약품명</th>
+                                    <th><i class="fas fa-caret-down"></i> 부작용</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -114,19 +114,13 @@
             </section>
         </div>
 
+        <div id="footer">
+            <div class="box">
+                <div class="icon"><img src="{% static 'medignore/img/copy_img.png' %}" alt="medignore" /></div>
+                <p>Copyright ⓒ Medignore. All rights reserved.</p>
+            </div>
+        </div>
 
-        <h3>임부</h3>
-
-
-        <h3>노인</h3>
-
-
-        <h3>유아</h3>
-
-
-        <br>
-        <br>
-        <a href="/medignore/">뒤로가기</a>
     </div>
 
     <script>
@@ -142,6 +136,8 @@
                 $('.menu__item').fadeOut(300);
                 $(this.hash).delay(300).fadeIn();
             });
+
+            $(".table tr:even").css("background", "#e5e5e5")
 
         });
     </script>

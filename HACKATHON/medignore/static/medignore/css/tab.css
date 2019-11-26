@@ -28,7 +28,7 @@
 }
 
 .menu__tabs a:hover {
-    background: #515a68;
+    background: #5a6851;
 }
 
 .menu__tabs a.active {
@@ -91,7 +91,8 @@
     padding: 0;
     position: relative;
     z-index: 400;
-    background: #e0e5d8;
+    border: 1px solid #d5d5d5;
+    padding: 7% 9%;
     min-height: 300px;
     -webkit-border-radius: 0 4px 4px 4px;
     -moz-border-radius: 0 4px 4px 4px;
