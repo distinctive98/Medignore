@@ -27,7 +27,7 @@ LIMIT_BOX = 100
 
 def result(request):
     for photo in Photo.objects.all():
-        photo.file.delete()
+        photo.photo_file.delete()
         photo.delete()
     
     param = request.GET.get('durItems')
@@ -53,16 +53,19 @@ def result(request):
     return render(request,'medignore/result.html',{'medicine_Info_Result1':medicine_Info_Result1,'medicine_Info_Result2':medicine_Info_Result2,'medicine_Info_Result3':medicine_Info_Result3,})
     
 
+def main(request):
+    return render(request, 'medignore/main.html')
+
+
 
 def search(request):
     kakao_key = config('KAKAO_KEY')
     if request.method == 'POST':
-       
         form = PhotoForm(request.POST, request.FILES)
         if form.is_valid():
             photo = form.save()
-            data = {'is_valid': True, 'name': photo.file.name, 'url': photo.file.url}
-            image= './'+photo.file.url
+            data = {'is_valid': True, 'name': photo.photo_file.name, 'url': photo.photo_file.url}
+            image= './'+photo.photo_file.url
             print(f'image url : {image}')
             key = kakao_key
             output = practice(image, key)
@@ -83,7 +86,7 @@ def search(request):
         else:
             data = {'is_valid': False}
         return JsonResponse(data)
-    else:     
+    else:  
         photos_list = Photo.objects.all()
         return render(request, 'medignore/search.html', {'photos': photos_list})
 
@@ -148,7 +151,7 @@ def practice(a, b):
 
 def clear_database(request):
     for photo in Photo.objects.all():
-        photo.file.delete()
+        photo.photo_file.delete()
         photo.delete()
     return redirect(request.POST.get('next'))
 

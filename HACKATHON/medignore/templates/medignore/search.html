@@ -31,7 +31,9 @@
 <body>
     <div id="wrap">
         <div id="header">
-            <h1 class="logo"><img src="{% static 'medignore/img/logo.png' %}" alt="medignore.io" /></h1>
+            <h1 class="logo">
+                <a href="/medignore"><img src="{% static 'medignore/img/logo.png' %}" alt="medignore.io" /></a>
+            </h1>
             <p>복용 중인 약에 대한 주의사항을 확인하세요</p>
         </div>
         <div id="content">
@@ -81,7 +83,7 @@
                 </form>
             </div>
 
-            <input id="fileupload" type="file" name="file" multiple style="display: none;" data-url="{% url 'medignore:search' %}" data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
+            <input id="fileupload" type="file" name="photo_file" multiple style="display: none;" data-url="{% url 'medignore:search' %}" data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
 
             <table id="gallery" class="table table-bordered" style="display: none;">
                 <thead>
@@ -112,7 +114,6 @@
                     return {
                         durItems: '',
                         data: '',
-                        // list: [],
                     }
                 },
                 created: function() {
@@ -139,18 +140,12 @@
                 methods: {
                     addTodo: function(name) {
                         $("#searchText").before("<span class='dur'><span class='close'><i ref='xicon' class='fas fa-times'></i></span><span class='text'>" + name + "</span></span>");
-                        this.durItems = '';
+                        $(".merong span").children('b').before('<span>' + name + ',</span>');
+                        $("#searchText").val('');
 
-                        $(".merong span").children('b').before('<span>' + name + ',</span>')
-                        $("#searchText").val('')
-                            //this.list.push({
-                            //    name: name
-                            // })
-
-                        // console.log(this.list)
-
-
+                        return;
                     },
+
                     durSubmit: function() {
                         var merong = $('.merong').text();
                         //alert(merong)
