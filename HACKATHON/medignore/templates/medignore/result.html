@@ -1,24 +1,4 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <h1>임부 주의사항</h1><hr>
-    {{ param }}
-    <h1>의약품 리스트</h1><hr>
-    {{ medicine_list }}
-    {% for i in medicine_list %}
-         {{i}}
-    {% endfor%}
-    <h1>의약품 금지목록</h1><hr>
-    {{ prohibit_list }}
-</body>
-</html> -->
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,96 +6,145 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Medignore - 의약품 검색 결과</title>
+
+    <script src="https://kit.fontawesome.com/074b86ccc4.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <link rel="stylesheet" href="{% static 'medignore/css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'medignore/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'medignore/css/tab.css' %}">
 </head>
-<style>
-    table {
-        width: 100%;
-        border: 1px solid #444444;
-    }
-
-    th,
-    td {
-        border: 1px solid #444444;
-    }
-
-    div {
-        margin: 0 auto;
-    }
-</style>
 
 <body>
-    <h1>Medignore</h1>
-    <h3>검색 결과</h3>
-    <hr>
-    <div
-        style="background-color: aquamarine; display: inline-block; width: 300px ;height: 300px; border: 1px solid black;">
-        img</div>
-    <div
-        style="background-color: aquamarine; display: inline-block; width: 300px ;height: 300px; border: 1px solid black;">
-        img</div>
+    <div id="wrap" class="sub">
+        <div id="header">
+            <h1 class="logo"><img src="{% static 'medignore/img/logo.png' %}" alt="medignore.io" /></h1>
+        </div>
+        <h2>
+            <p>의약품 검색 결과</p>
+        </h2>
 
-    <br>
-    <br>
+        <div class="menu">
+
+            <ul class="menu__tabs">
+                <li><a class="active" href="#item-1" class="t1"><span><img src="{% static 'medignore/img/d_icon1.png' %}" alt="임부"></span> 임부</a></li>
+                <li><a href="#item-2" class="t2"><span><img src="{% static 'medignore/img/d_icon2.png' %}" alt="노인"></span> 노인</a></li>
+                <li><a href="#item-3" class="t3"><span><img src="{% static 'medignore/img/d_icon3.png' %}" alt="유아"></span> 유아</a></li>
+            </ul>
+            <section class="menu__wrapper">
+                <article id="item-1" class="menu__item item-active">
+                    <div class="table">
+                        <table>
+                            <colgroup>
+                                <col width="30%">
+                                <col width="70%">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>약품명</th>
+                                    <th>부작용</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for key, value in medicine_Info_Result1.items %}
+                                <tr>
+                                    <td>{{key}}</td>
+                                    <td>{{value}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+
+                <article id="item-2" class="menu__item">
+                    <h3>노인</h3>
+                    <div class="table">
+                        <table>
+                            <colgroup>
+                                <col width="30%">
+                                <col width="70%">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>약품명</th>
+                                    <th>부작용</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for key, value in medicine_Info_Result2.items %}
+                                <tr>
+                                    <td>{{key}}</td>
+                                    <td>{{value}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+                </article>
+
+                <article id="item-3" class="menu__item">
+                    <h3>유아</h3>
+                    <div class="table">
+                        <table>
+                            <colgroup>
+                                <col width="30%">
+                                <col width="70%">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>약품명</th>
+                                    <th>부작용</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for key, value in medicine_Info_Result3.items %}
+                                <tr>
+                                    <td>{{key}}</td>
+                                    <td>{{value}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+
+            </section>
+        </div>
 
 
-    <h3>임부</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>약품명</th>
-                <th>부작용</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for key, value in medicine_Info_Result1.items %}
-            <tr>
-                <td>{{key}}</td>
-                <td>{{value}}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <h3>임부</h3>
 
-    <h3>노인</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>약품명</th>
-                <th>부작용</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for key, value in medicine_Info_Result2.items %}
-            <tr>
-                <td>{{key}}</td>
-                <td>{{value}}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
 
-    <h3>유아</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>약품명</th>
-                <th>부작용</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for key, value in medicine_Info_Result3.items %}
-            <tr>
-                <td>{{key}}</td>
-                <td>{{value}}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <h3>노인</h3>
 
-    <br>
-    <br>
-    <a href="/medignore/">뒤로가기</a>
+
+        <h3>유아</h3>
+
+
+        <br>
+        <br>
+        <a href="/medignore/">뒤로가기</a>
+    </div>
+
+    <script>
+        $(function() {
+
+            // Menu Tabular
+            var $menu_tabs = $('.menu__tabs li a');
+            $menu_tabs.on('click', function(e) {
+                e.preventDefault();
+                $menu_tabs.removeClass('active');
+                $(this).addClass('active');
+
+                $('.menu__item').fadeOut(300);
+                $(this.hash).delay(300).fadeIn();
+            });
+
+        });
+    </script>
 </body>
 
 </html>

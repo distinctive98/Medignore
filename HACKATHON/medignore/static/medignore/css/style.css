@@ -9,6 +9,11 @@ body {
     padding: 30vh 0;
 }
 
+#wrap.sub {
+    padding: 0;
+    height: auto;
+}
+
 #wrap .github_corner {
     position: absolute;
     top: 0;
@@ -152,9 +157,6 @@ body {
 }
 
 #content #searchResult {
-    position: absolute;
-    bottom: -199px;
-    left: -1px;
     width: 100%;
     width: 567px;
     border: 1px solid #ccc;
@@ -236,3 +238,26 @@ body {
     line-height: 60px;
     color: #999;
 }
+
+#wrap.sub #header {
+    padding: 50px 10%;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+}
+
+#wrap.sub #header h1 img {
+    width: 300px;
+}
+
+#wrap.sub h2 {
+    padding: 30px 10%;
+    color: #666;
+    font-weight: 500;
+    font-size: 28px;
+    height: 80px;
+    line-height: 80px;
+    text-align: left;
+    letter-spacing: -1px;
+}
+
+#wrap.sub h3 {}
