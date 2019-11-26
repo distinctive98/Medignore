@@ -1,53 +1,198 @@
-{% extends 'medignore/base_img.html' %}
-
 {% load static %}
+<!DOCTYPE html>
+<html lang="ko">
 
-{% block title %}Search{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Medignore</title>
 
-{% block javascript %}
-{# JQUERY FILE UPLOAD SCRIPTS #}
-<script src="{% static 'js/jquery-file-upload/vendor/jquery.ui.widget.js' %}"></script>
-<script src="{% static 'js/jquery-file-upload/jquery.iframe-transport.js' %}"></script>
-<script src="{% static 'js/jquery-file-upload/jquery.fileupload.js' %}"></script>
+    <script src="https://kit.fontawesome.com/074b86ccc4.js" crossorigin="anonymous"></script>
 
-{# PHOTOS PAGE SCRIPTS #}
-<script src="{% static 'medignore/js/drag-and-drop-upload.js' %}"></script>
-{% endblock %}
+    <!-- <script src="https://unpkg.com/vue/dist/vue.min.js"></script> -->
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script src="{% static 'js/jquery-file-upload/vendor/jquery.ui.widget.js' %}"></script>
+    <script src="{% static 'js/jquery-file-upload/jquery.iframe-transport.js' %}"></script>
+    <script src="{% static 'js/jquery-file-upload/jquery.fileupload.js' %}"></script>
+    <script src="{% static 'medignore/js/drag-and-drop-upload.js' %}"></script>
+
+    <link rel="stylesheet" href="{% static 'medignore/css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'medignore/css/style.css' %}">
+</head>
+
+<body>
+    <div id="wrap">
+        <div id="header">
+            <h1 class="logo"><img src="{% static 'medignore/img/logo.png' %}" alt="medignore.io" /></h1>
+            <p>복용 중인 약에 대한 주의사항을 확인하세요</p>
+        </div>
+        <div id="content">
+            <form action="/medignore/result/" method="GET" id="frm">
+                <input type="hidden" id="durItemName" name="durItems" value="">
+                <div class="merong">
+                    <!--  -->
+                    <!--<span v-for="item in list">{% verbatim %}{{ item.name }},{% endverbatim %}</span>-->
+                    <span><b></b></span>
+                    <!-- 처방전 검색 -->
+                    <strong></strong>
+                </div>
+                <div id="searchForm">
+                    <div class="line">
+                        <div class="i_box">
+                            <div id="inputBox">
+                                <input type="text" id="searchText" @input="durItems=$event.target.value" placeholder="약 이름 검색">
+                            </div>
+                            <div class="btn">
+                                <input type="button" value="Search" @click="durSubmit()">
+                            </div>
+                            <div id="camera"><img src="{% static 'medignore/img/camera.png' %}" alt=""></div>
+                        </div>
+                        <div id="searchResult" v-if="this.durItems != ''">
+                            <ul class="prd_list" v-for="d in filtered">
+                                <li v-on:click="addTodo(`${ d.Item }`)">{% verbatim %}{{ d.Item }}{% endverbatim %}</li>
+                            </ul>
+                        </div>
+                    </div>
 
 
-{% block photos_content %}
-<form action="/medignore/result/" method="GET">
-  검색어 : <input id="searchItems" type="text" name="durItems" style='width :100%'placeholder="약품명을 입력하세요."> <input type="submit" value ="검색">
-</form>
+                </div>
+            </form>
+
+            <div class="well text-muted text-center">
+                <span class="glyphicon glyphicon-arrow-down" style="font-size: 4rem;"></span>
+                <h3><i class="fas fa-file-upload fa-2x"></i>&nbsp;&nbsp;처방전을 드래그앤드롭 해주세요.</h3>
+            </div>
+
+            <div class='remove_photo' style="display: none;">
+                <form method="post" action="{% url 'medignore:clear_database' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.path }}">
+                    <button type="submit" class="btn btn-danger pull-right">
+                      <span class="glyphicon glyphicon-trash"></span> 업로드 사진 삭제
+                    </button>
+                </form>
+            </div>
+
+            <input id="fileupload" type="file" name="file" multiple style="display: none;" data-url="{% url 'medignore:search' %}" data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
+
+            <table id="gallery" class="table table-bordered" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Photo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for photo in photos %}
+                    <tr>
+                        <td><a href="{{ photo.file.url }}">{{ photo.file.name }}</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div id="photo" style="display: none;">
+                {% for photo in photos %}
+                <img src="{{ photo.file.url }}"> {% endfor %}
+            </div>
 
 
-<div class="well text-muted text-center" style="padding-top: 4rem; padding-bottom: 4rem;">
-  <span class="glyphicon glyphicon-arrow-down" style="font-size: 4rem;"></span>
-  <h3>Drop Photos Here to Upload</h3>
-</div>
+        </div>
+
+        <script>
+            new Vue({
+                el: '#content',
+                data() {
+                    return {
+                        durItems: '',
+                        data: '',
+                        // list: [],
+                    }
+                },
+                created: function() {
+                    axios.get('https://raw.githubusercontent.com/distinctive98/Medignore/dev/HACKATHON/medignore/static/medignore/json/durItems.json')
+                        .then(function(response) {
+                            // JSON responses are automatically parsed.
+                            this.data = response.data['FIELD']
+                            console.log(response.data['FIELD'][0]['Item'])
+
+                        }.bind(this)).catch(function(e) {
+                            console.error(e)
+                        })
+                },
+                computed: {
+                    filtered: function() {
+                        var dname = this.durItems.trim();
+                        return this.data.filter(function(item, index) {
+                            if (item.Item.indexOf(dname) > -1) {
+                                return true;
+                            }
+                        });
+                    }
+                },
+                methods: {
+                    addTodo: function(name) {
+                        $("#searchText").before("<span class='dur'><span class='close'><i ref='xicon' class='fas fa-times'></i></span><span class='text'>" + name + "</span></span>");
+                        this.durItems = '';
+
+                        $(".merong span").children('b').before('<span>' + name + ',</span>')
+                        $("#searchText").val('')
+                            //this.list.push({
+                            //    name: name
+                            // })
+
+                        // console.log(this.list)
 
 
+                    },
+                    durSubmit: function() {
+                        var merong = $('.merong').text();
+                        //alert(merong)
 
-<input id="fileupload" type="file" name="file" multiple style="display: none;" data-url="{% url 'medignore:search' %}"
-  data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
+                        merong = merong.substr(0, merong.length - 2);
+                        $('.merong').text(merong);
 
-<table id="gallery" class="table table-bordered">
-  <thead>
-    <tr>
-      <th>Photo</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for photo in photos %}
-    <tr>
-      <td><a href="{{ photo.file.url }}">{{ photo.file.name }}</a></td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-<div id="photo">
-  {% for photo in photos %}
-  <img src="{{ photo.file.url }}">
-  {% endfor %}
-</div>
-{% endblock %}
+                        $('#durItemName').attr('value', merong)
+                        document.getElementById('frm').submit();
+                        return false;
+
+
+                    },
+
+                }
+            })
+
+            $(document).ready(function() {
+                $(document).on("click", "span.dur span.close", function(event) {
+                    $(this).parent('.dur').remove();
+
+                    //alert(text)
+                    var txt = $(this).parent('.dur').children('.text').text()
+
+                    var mr = $('.merong').text()
+
+                    var temp = mr.replace(txt + ',', '');
+                    $('.merong').html(temp + '<span><b></b></span>');
+
+                });
+            })
+        </script>
+
+        <div id="footer">
+            <div class="box">
+                <div class="icon"><img src="{% static 'medignore/img/copy_img.png' %}" alt="medignore" /></div>
+                <p>Copyright ⓒ Medignore. All rights reserved.</p>
+            </div>
+        </div>
+        <a href="https://github.com/distinctive98/Medignore" target="_blank" class="github_corner"><img src="{% static 'medignore/img/icon_github.png' %}" alt="Medignore Github" /></a>
+    </div>
+
+</body>
+
+</html>

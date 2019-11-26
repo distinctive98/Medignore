@@ -53,10 +53,6 @@ def result(request):
     return render(request,'medignore/result.html',{'medicine_Info_Result1':medicine_Info_Result1,'medicine_Info_Result2':medicine_Info_Result2,'medicine_Info_Result3':medicine_Info_Result3,})
     
 
-def main(request):
-    return render(request, 'medignore/main.html')
-
-
 
 def search(request):
     kakao_key = config('KAKAO_KEY')
