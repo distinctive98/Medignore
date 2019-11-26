@@ -24,8 +24,6 @@ LIMIT_PX = 1024
 LIMIT_BYTE = 1024*1024  # 1MB
 LIMIT_BOX = 100
 
-def search(request):
-    return render(request, 'medignore/search.html')
 
 
 def result(request):
@@ -88,7 +86,7 @@ def service(request):
 
     return render(request, 'medignore/service.html',{'res':response_body})
 
-def test(request):
+def search(request):
     kakao_key = config('KAKAO_KEY')
     if request.method == 'POST':
        
@@ -102,16 +100,21 @@ def test(request):
             output = practice(image, key)
             resultOutput =output['result']['recognition_words']
             regex =re.compile('\d{9}')
+            medList = list()
             for item in resultOutput:
                 mo = regex.search(item)
                 if mo != None:
-                    print(mo.group()) 
+                    medList.append(mo.group())
+
+            data['medList']= medList
+            print(f'리스트 출럭{medList}')
+            print(data)
         else:
             data = {'is_valid': False}
         return JsonResponse(data)
     else:     
         photos_list = Photo.objects.all()
-        return render(request, 'medignore/drag_and_drop_upload.html', {'photos': photos_list})
+        return render(request, 'medignore/search.html', {'photos': photos_list})
 
 def kakao_ocr_resize(image_path: str):
  
@@ -178,31 +181,23 @@ def clear_database(request):
         photo.delete()
     return redirect(request.POST.get('next'))
 
-# def durProhibit(durList, sign) :
-#     #C:\Users\student\Desktop\Medignore\HACKATHON\medignore\static\medignore\json\durProhibit1.json
-#     with open('./static/medignore/json/durProhibit' + sign + '.json', encoding="utf-8") as data_file :
-#         data = json.load(data_file)
-
-#     field = data['FIELD']
-#     durList_len = len(durList)
-#     field_len = len(field)
-#     result = []
-#     for i in range(durList_len) :
-#         check = False
-#         for j in range(field_len) :
-#             if field[j]['Item'] == durList[i] :
-#                 result.append(field[j]['Prohibit'])
-#                 check = True
-#                 break
-#         if not check :
-#             result.append('이상없음')
-
-#     for i in range(len(result)) :
-#         print(result[i])
 
 def url_parse(request, medicine):
     medicine_list = medicine.split(',')
-    print(medicine_list)
-    prohibit_list = durProhibit(medicine_list, '1')
-    print(prohibit_list)
-    return render(request,'medignore/result.html',{'medicine_list':medicine_list, 'prohibit_list':prohibit_list})
+    prohibit_list1 = durProhibit(medicine_list, '1')
+    prohibit_list2 = durProhibit(medicine_list, '2')
+    prohibit_list3 = durProhibit(medicine_list, '3')
+
+    medicine_Info1 = zip(medicine_list,prohibit_list1)
+    medicine_Info_Result1 = dict(medicine_Info1)
+
+    medicine_Info2 = zip(medicine_list,prohibit_list2)
+    medicine_Info_Result2 = dict(medicine_Info2)
+
+    medicine_Info3 = zip(medicine_list,prohibit_list3)
+    medicine_Info_Result3 = dict(medicine_Info3)
+    
+    print(medicine_Info_Result1)
+    print(medicine_Info_Result2)
+    print(medicine_Info_Result3)
+    return render(request,'medignore/result.html',{'medicine_Info_Result1':medicine_Info_Result1,'medicine_Info_Result2':medicine_Info_Result2,'medicine_Info_Result3':medicine_Info_Result3,})
