@@ -324,3 +324,132 @@ body {
 .table.child table thead th {
     background: #feeccd;
 }
+
+@media (max-width: 780px) {
+    #wrap {
+        position: relative;
+        height: auto;
+        padding: 150px 0 0 0;
+    }
+    #header h1.logo img {
+        width: 250px;
+    }
+    #header p {
+        font-size: 14px;
+    }
+    #content {
+        padding: 0 20px;
+    }
+    #content #searchForm {
+        width: 100%;
+    }
+    #content #searchForm .line {
+        width: 100%;
+        margin: 0 0 0 0;
+    }
+    #content #searchForm #inputBox {
+        max-width: 95%;
+        min-width: 0;
+        padding: 0px 5px 5px 5px;
+    }
+    #content #searchForm .btn {
+        top: -2px;
+        right: -1px;
+        width: 15%;
+    }
+    #content #searchForm .btn input {
+        font-size: 14px;
+    }
+    #content #searchForm .i_box input#searchText {
+        max-width: 100%;
+        min-width: 20%;
+    }
+    #content #searchResult {
+        width: 100%;
+    }
+    .well {
+        width: 100%;
+    }
+    .well h3 {
+        font-size: 13px;
+    }
+    #footer {
+        margin: 150px 0 0 0;
+        width: 100%;
+    }
+    #footer .box {
+        width: auto;
+        padding: 0 20px
+    }
+    #footer .icon {
+        width: 30%;
+        text-align: right;
+    }
+    #footer .icon img {
+        width: 60px;
+    }
+    #footer p {
+        text-align: left;
+        width: 65%;
+        padding: 20px 0 0 5%;
+        font-size: 12px;
+        line-height: 1.2;
+    }
+    /* 결과 페이지 */
+    #wrap.sub #header {
+        padding: 20px 20px;
+        text-align: left;
+        border-bottom: 1px solid #ccc;
+    }
+    #wrap.sub #header h1 img {
+        margin: 10px 0 0 0;
+        width: 220px;
+    }
+    #wrap.sub h2 {
+        padding: 20px 20px;
+        font-size: 22px;
+        height: 70px;
+        line-height: 70px;
+    }
+    .menu__tabs li {
+        float: left;
+        width: 33%;
+        margin-right: 0.5%;
+    }
+    .menu__tabs li:last-child {
+        margin-right: 0;
+    }
+    .menu__tabs a {
+        width: 100%;
+        padding: 1em 0;
+        text-align: center;
+        text-decoration: none;
+    }
+    .menu {
+        padding: 0 20px;
+        min-width: auto;
+    }
+    .menu__tabs li span img {
+        height: 35px;
+    }
+    .menu__wrapper {
+        padding: 20px;
+    }
+    .table table th,
+    .table table td {
+        font-size: 12px;
+    }
+    .table table thead th {
+        height: 50px;
+        font-size: 16px;
+    }
+    .table table tbody th,
+    .table table tbody td {
+        height: 40px;
+        padding: 0 0 0 10px
+    }
+}
+
+@media (max-width: 580px) {
+    body {}
+}
