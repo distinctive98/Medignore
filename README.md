@@ -10,7 +10,7 @@
 * drug search (search index, multiple search)
 * Prescription Image Drag & Drop Function
   * Extraction of codes in the prescription using OCR API
-  * Convert the codes to drug name using Json parsing
+  * Convert the codes to drug names using Json parser
 * Show cautions for medicines
 
 
