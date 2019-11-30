@@ -77,6 +77,7 @@
 
 ## Screenshots
 
-<img src="./img/medignore1.JPG">
+<img src="./img/medignore_main.JPG">
 
-<img src="./img/medignore2.JPG">
+<img src="./img/medignore_result.JPG">
+
