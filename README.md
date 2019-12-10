@@ -1,13 +1,21 @@
 <h1><img src="./img/logo.png"></h1>
  <img src="https://img.shields.io/badge/Contributors-4-yellow.svg">
 
+## Link
+
+http://medignore.herokuapp.com/medignore/
+
+
+
 ## What is this?
 
 > Drug Precautions Retrieval Service
 
+
+
 ### Function
 
-* drug search (search index, multiple search)
+* Drug search (search index, multiple search)
 * Prescription Image Drag & Drop Function
   * Extraction of codes in the prescription using OCR API
   * Convert the codes to drug names using Json parser
@@ -20,7 +28,6 @@
 > Front-end
 
 * Vue.js
-* Boostrap4
 * HTML5 / CSS3 / JavaScript / jQuery / Ajax
 
 > Back-end
@@ -77,7 +84,7 @@
 
 ## Screenshots
 
-<img src="./img/medignore_main.JPG">
+<img src="./img/medignore1.JPG">
 
-<img src="./img/medignore_result.JPG">
+<img src="./img/medignore2.JPG">
 
